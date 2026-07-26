@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071426">
+  <title>Precalculus Reviewer Hub</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #071426;
+      --bg-soft: #0d213a;
+      --panel: rgba(10, 29, 51, 0.88);
+      --panel-strong: #102a49;
+      --text: #f5f9ff;
+      --muted: #a9bed5;
+      --cyan: #35d6ff;
+      --blue: #4f8cff;
+      --violet: #a975ff;
+      --green: #47dfb1;
+      --warning: #ffc857;
+      --border: rgba(137, 190, 236, 0.22);
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.35);
+      --radius-xl: 30px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family: "DM Sans", sans-serif;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(53, 214, 255, 0.18), transparent 25%),
+        radial-gradient(circle at 88% 16%, rgba(169, 117, 255, 0.19), transparent 27%),
+        radial-gradient(circle at 50% 100%, rgba(79, 140, 255, 0.15), transparent 38%),
+        linear-gradient(145deg, #040c18 0%, var(--bg) 48%, #0b1e34 100%);
+      padding: 28px 16px 44px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.38;
+      background-image:
+        linear-gradient(rgba(117, 183, 239, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(117, 183, 239, 0.055) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(to bottom, black 0%, transparent 88%);
+    }
+
+    .math-symbol {
+      position: fixed;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+      color: rgba(151, 205, 255, 0.10);
+      font-family: "Sora", sans-serif;
+      font-weight: 800;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .symbol-1 { top: 7%; left: 4%; font-size: clamp(2.5rem, 7vw, 5.4rem); }
+    .symbol-2 { top: 23%; right: 5%; font-size: clamp(2rem, 6vw, 4.6rem); animation-delay: -2s; }
+    .symbol-3 { bottom: 8%; left: 7%; font-size: clamp(2rem, 5vw, 4rem); animation-delay: -4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-15px) rotate(3deg); }
+    }
+
+    .app-shell {
+      width: min(100%, 940px);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(13, 33, 58, 0.94), rgba(7, 20, 38, 0.96));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(32px, 6vw, 58px) clamp(22px, 6vw, 62px) 34px;
+      text-align: center;
+      background:
+        linear-gradient(135deg, rgba(53, 214, 255, 0.13), rgba(169, 117, 255, 0.13)),
+        linear-gradient(180deg, rgba(18, 52, 88, 0.96), rgba(12, 31, 54, 0.96));
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero::after {
+      content: "y = mx + b     x² + y² = r²     sin²θ + cos²θ = 1";
+      position: absolute;
+      left: 50%;
+      bottom: 10px;
+      width: max-content;
+      transform: translateX(-50%);
+      color: rgba(226, 241, 255, 0.065);
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.1rem, 3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 8px 14px;
+      border: 1px solid rgba(53, 214, 255, 0.30);
+      border-radius: 999px;
+      color: #c9f6ff;
+      background: rgba(53, 214, 255, 0.09);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 0 auto;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(2rem, 6vw, 4.1rem);
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(90deg, var(--cyan), #9ee8ff 46%, #c3a9ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 17px auto 0;
+      color: var(--muted);
+      font-size: clamp(0.98rem, 2.5vw, 1.12rem);
+      line-height: 1.7;
+    }
+
+    .instruction {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 14px 20px;
+      color: #dff8ff;
+      background: rgba(53, 214, 255, 0.07);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.94rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .instruction-icon {
+      display: inline-block;
+      animation: tap 1.4s ease-in-out infinite;
+    }
+
+    @keyframes tap {
+      0%, 100% { transform: translateY(0) rotate(-7deg); }
+      50% { transform: translateY(3px) rotate(3deg); }
+    }
+
+    .content {
+      padding: clamp(22px, 4vw, 38px);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section-heading h2 {
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.2rem, 3vw, 1.55rem);
+    }
+
+    .section-heading span {
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .review-card {
+      min-height: 174px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, rgba(18, 49, 83, 0.96), rgba(10, 28, 49, 0.96));
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.20);
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .review-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      background: linear-gradient(120deg, transparent 10%, rgba(255,255,255,0.10), transparent 65%);
+      transform: translateX(-80%);
+      transition: opacity 0.25s ease, transform 0.5s ease;
+    }
+
+    .review-card.active:hover,
+    .review-card.active:focus-within {
+      transform: translateY(-6px);
+      border-color: rgba(53, 214, 255, 0.52);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.30), 0 0 0 1px rgba(53, 214, 255, 0.12);
+    }
+
+    .review-card.active:hover::before,
+    .review-card.active:focus-within::before {
+      opacity: 1;
+      transform: translateX(90%);
+    }
+
+    .review-card a,
+    .placeholder-content {
+      min-height: 174px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .icon-box {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 16px;
+      font-size: 1.75rem;
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+
+    .geometry .icon-box {
+      background: linear-gradient(145deg, rgba(53,214,255,0.25), rgba(79,140,255,0.24));
+    }
+
+    .algebra .icon-box {
+      background: linear-gradient(145deg, rgba(169,117,255,0.28), rgba(79,140,255,0.22));
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #bbffe8;
+      background: rgba(71, 223, 177, 0.10);
+      border: 1px solid rgba(71, 223, 177, 0.28);
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px rgba(71, 223, 177, 0.85);
+    }
+
+    .card-title {
+      margin-top: 16px;
+      font-family: "Sora", sans-serif;
+      font-size: 1.16rem;
+      line-height: 1.25;
+    }
+
+    .card-description {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .open-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #dff9ff;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .arrow {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #06111f;
+      background: linear-gradient(135deg, var(--cyan), #b8efff);
+      transition: transform 0.22s ease;
+    }
+
+    .review-card.active:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .future-section {
+      margin-top: 30px;
+    }
+
+    .future-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    /*
+      FUTURE CARD TEMPLATE
+      Each future card uses the same structure and size as an available card.
+      Replace only the marked URL, icon, topic label, and optional description.
+    */
+    .review-card.future-card {
+      border-style: dashed;
+      background: linear-gradient(145deg, rgba(18, 49, 83, 0.78), rgba(10, 28, 49, 0.78));
+    }
+
+    .future-card .template-status {
+      visibility: hidden;
+    }
+
+    .future-card .template-icon,
+    .future-card .template-title,
+    .future-card .template-description,
+    .future-card .template-link-label {
+      min-height: 1em;
+    }
+
+    .future-card .template-description {
+      min-height: 2.75em;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px clamp(22px, 4vw, 38px);
+      color: var(--muted);
+      background: rgba(4, 13, 25, 0.66);
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+
+    .brand {
+      color: #e6f7ff;
+      font-weight: 800;
+    }
+
+
+    @media (max-width: 640px) {
+      body {
+        padding: 12px 10px 28px;
+      }
+
+      .app-shell {
+        border-radius: 22px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .future-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      footer {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <span class="math-symbol symbol-1" aria-hidden="true">∑</span>
+  <span class="math-symbol symbol-2" aria-hidden="true">π</span>
+  <span class="math-symbol symbol-3" aria-hidden="true">√x</span>
+
+  <main class="app-shell">
+    <header class="hero">
+      <div class="eyebrow">📘 Mathematics Learning Portal</div>
+      <h1><span class="gradient-text">Precalculus</span><br>Reviewer Hub</h1>
+      <!--p>Choose a topic to open its reviewer and practice materials.</p -->
+    </header>
+
+    <div class="instruction">
+      <span class="instruction-icon" aria-hidden="true">👆</span>
+      Select reviewer to begin.
+    </div>
+
+    <section class="content" aria-labelledby="available-reviewers">
+      <div class="section-heading">
+        <!--h2 id="available-reviewers">Available Reviewers</h2>
+        <span>2 learning modules ready</span -->
+      </div>
+
+      <div class="card-grid">
+        <article class="review-card active geometry">
+          <a href="https://rekzbanz02-arch.github.io/analytic-geometry/" target="_blank" rel="noopener noreferrer" aria-label="Open Analytic Geometry Reviewer in a new tab">
+            <div>
+              <div class="card-top">
+                <div class="icon-box" aria-hidden="true">📐</div>
+                <span class="status">Available</span>
+              </div>
+              <h3 class="card-title">Analytic Geometry</h3>
+              <p class="card-description">Review coordinates, distance, midpoint, slope, lines, circles, and conic sections.</p>
+            </div>
+            <div class="open-link">
+              <span>Open reviewer</span>
+              <span class="arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="review-card active algebra">
+          <a href="https://rekzbanz02-arch.github.io/basic-laws-and-algebra/" target="_blank" rel="noopener noreferrer" aria-label="Open Basic Laws and Algebra Reviewer in a new tab">
+            <div>
+              <div class="card-top">
+                <div class="icon-box" aria-hidden="true">𝑥²</div>
+                <span class="status">Available</span>
+              </div>
+              <h3 class="card-title">Basic Laws &amp; Algebra</h3>
+              <p class="card-description">Study algebraic laws, operations, expressions, equations, exponents, and core rules.</p>
+            </div>
+            <div class="open-link">
+              <span>Open reviewer</span>
+              <span class="arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+        </article>
+      </div>
+
+      <div class="future-section" aria-labelledby="future-reviewers">
+        <div class="section-heading">
+          <h2 id="future-reviewers">Future Reviewers</h2>
+          <span>Five spaces reserved for new links</span>
+        </div>
+
+        <div class="future-grid">
+          <!--
+            HOW TO ADD A FUTURE REVIEWER:
+            1. Replace PASTE-LINK-HERE with the reviewer URL.
+            2. Replace the icon blank with an emoji or symbol.
+            3. Replace &nbsp; inside template-title with the topic label.
+            4. Optionally replace &nbsp; inside template-description and template-link-label.
+          -->
+          
+          <!-- EXPONENTIAL AND LOGARITHMIC FUNCTIONS REVIEWER CARD -->
+<article
+  class="review-card active future-card"
+  aria-label="Exponential and Logarithmic Functions reviewer"
+>
+  <a
+    href="https://rekzbanz02-arch.github.io/exponential-logarithmic-functions/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Open Exponential and Logarithmic Functions reviewer"
+  >
+    <div>
+      <div class="card-top">
+        <div
+          class="icon-box template-icon"
+          aria-hidden="true"
+          title="Exponential and Logarithmic Functions"
+        >
+          eˣ
+        </div>
+ 
+        <span class="status template-status">Available</span>
+      </div>
+
+      <h3 class="card-title">
+        Exponential and Logarithmic Functions
+      </h3>
+
+      <p class="card-description template-description">
+        Review exponential equations, logarithmic properties, graphs,
+        transformations, and problem-solving techniques.
+      </p>
+    </div>
+
+    <div class="open-link">
+      <span class="template-link-label">Open reviewer</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </div>
+  </a>
+</article>
+
+          <!-- FACTORING AND EQUATIONS REVIEWER CARD -->
+<article
+  class="review-card active future-card"
+  aria-label="Factoring and Equations reviewer"
+>
+  <a
+    href="https://rekzbanz02-arch.github.io/factoring-and-equation/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Open Factoring and Equations reviewer"
+  >
+    <div>
+      <div class="card-top">
+        <div
+          class="icon-box template-icon"
+          aria-hidden="true"
+          title="Factoring and Equations"
+        >
+          x²
+        </div>
+
+        <span class="status template-status">Available</span>
+      </div>
+
+      <h3 class="card-title template-title">
+        Factoring and Equations
+      </h3>
+
+      <p class="card-description template-description">
+        Review factoring techniques, algebraic expressions, polynomial
+        equations, and step-by-step equation-solving methods.
+      </p>
+    </div>
+
+    <div class="open-link">
+      <span class="template-link-label">Open reviewer</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </div>
+  </a>
+</article>
+
+          <!-- BASIC TRIGONOMETRY REVIEWER CARD -->
+<article
+  class="review-card active future-card"
+  aria-label="Basic Trigonometry reviewer"
+>
+  <a
+    href="https://rekzbanz02-arch.github.io/trigonometry-Basic/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Open Basic Trigonometry reviewer"
+  >
+    <div>
+      <div class="card-top">
+        <div
+          class="icon-box template-icon"
+          aria-hidden="true"
+          title="Basic Trigonometry"
+        >
+          sin θ
+        </div>
+
+        <span class="status template-status">Available</span>
+      </div>
+
+      <h3 class="card-title template-title">
+        Basic Trigonometry
+      </h3>
+
+      <p class="card-description template-description">
+        Review angles, right triangles, trigonometric ratios, special angles,
+        identities, and basic problem-solving techniques.
+      </p>
+    </div>
+
+    <div class="open-link">
+      <span class="template-link-label">Open reviewer</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </div>
+  </a>
+</article>
+
+          <!-- FUTURE REVIEWER CARD 4: Replace the marked values only. -->
+          <article class="review-card active future-card" aria-label="Future reviewer template 4">
+            <a href="PASTE-LINK-HERE" target="_blank" rel="noopener noreferrer">
+              <div>
+                <div class="card-top">
+                  <div class="icon-box template-icon" aria-hidden="true"><!-- PASTE ICON HERE -->&nbsp;</div>
+                  <span class="status template-status" aria-hidden="true">Available</span>
+                </div>
+
+                <!-- Replace &nbsp; with the future topic label. -->
+                <h3 class="card-title template-title">&nbsp;</h3>
+
+                <!-- Optional: Replace &nbsp; with a short topic description. -->
+                <p class="card-description template-description">&nbsp;</p>
+              </div>
+
+              <div class="open-link">
+                <!-- Optional: Replace &nbsp; with text such as Open reviewer. -->
+                <span class="template-link-label">&nbsp;</span>
+                <span class="arrow" aria-hidden="true">→</span>
+              </div>
+            </a>
+          </article>
+
+          <!-- FUTURE REVIEWER CARD 5: Replace the marked values only. -->
+          <article class="review-card active future-card" aria-label="Future reviewer template 5">
+            <a href="PASTE-LINK-HERE" target="_blank" rel="noopener noreferrer">
+              <div>
+                <div class="card-top">
+                  <div class="icon-box template-icon" aria-hidden="true"><!-- PASTE ICON HERE -->&nbsp;</div>
+                  <span class="status template-status" aria-hidden="true">Available</span>
+                </div>
+
+                <!-- Replace &nbsp; with the future topic label. -->
+                <h3 class="card-title template-title">&nbsp;</h3>
+
+                <!-- Optional: Replace &nbsp; with a short topic description. -->
+                <p class="card-description template-description">&nbsp;</p>
+              </div>
+
+              <div class="open-link">
+                <!-- Optional: Replace &nbsp; with text such as Open reviewer. -->
+                <span class="template-link-label">&nbsp;</span>
+                <span class="arrow" aria-hidden="true">→</span>
+              </div>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Precalculus Reviewer Collection</span>
+      <span class="brand">Developed by @RekzBanz</span>
+    </footer>
+  </main>
+</body>
+</html>
